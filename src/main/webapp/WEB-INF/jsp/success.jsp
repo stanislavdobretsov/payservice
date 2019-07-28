@@ -1,0 +1,1 @@
+congratilations! you're successfully registersd in service with login ${number}
