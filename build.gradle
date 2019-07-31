@@ -8,7 +8,7 @@ buildscript {
 }
 
 ext {
-    packaging = 'jar'
+    profile = 'dev'
 }
 
 apply plugin: 'org.springframework.boot'
@@ -16,7 +16,7 @@ apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
-if(packaging.equals("war")) {
+if(profile.equals("prod")) {
     apply plugin: 'war'
 }
 
@@ -38,12 +38,13 @@ repositories {
 dependencies {
    compile('org.springframework.boot:spring-boot-starter-web','org.apache.tomcat.embed:tomcat-embed-jasper'
             ,'javax.servlet:jstl')
-    compile('org.postgresql:postgresql')
+    runtime('org.postgresql:postgresql')
     compile('org.springframework.boot:spring-boot-starter-jdbc')
     compile('org.projectlombok:lombok')
     compile('org.springframework.boot:spring-boot-starter-security')
+    compile('net.sargue:java-time-jsptags:1.1.4')
   //  compile('org.springframework.data:spring-data-commons')
-    if(packaging.equals("war")) {
+    if(profile.equals("prod")) {
         providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
     }
     testCompile('org.springframework.boot:spring-boot-starter-test')

@@ -3,10 +3,10 @@ package com.dobretsov.payservice.dao;
 import com.dobretsov.payservice.domain.Client;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
+@Slf4j
 public class ClientRepositoryImpl implements ClientRepository {
 
     private JdbcTemplate jdbc;
@@ -49,8 +50,16 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public Integer updateCredits(Integer id, BigDecimal credits) {
-        return jdbc.update("UPDATE client SET credits=? WHERE client_id=?", credits, id);
+    public Integer updateCredits(Integer id, BigDecimal credits) throws DaoException {
+        Integer rows = null;
+        try {
+            rows = jdbc.update("UPDATE client SET credits=? WHERE client_id=?", credits, id);
+        } catch (Exception e) {
+            if(e instanceof DataIntegrityViolationException) {
+                throw new DaoException(e.getMessage());
+            }
+        }
+        return rows;
     }
 
     private Client clientMapRow(ResultSet resultSet, int rowNum) throws SQLException {

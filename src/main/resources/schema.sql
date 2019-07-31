@@ -26,6 +26,6 @@ CREATE TABLE IF NOT EXISTS pay_operation (
     pay_sum NUMERIC NOT NULL
 );
 
-INSERT INTO service (service_id, title, min_pay_sum, max_pay_sum) VALUES (1, 'МТС', 20, 90) ON CONFLICT(service_id) DO NOTHING;
-INSERT INTO service (service_id, title, min_pay_sum, max_pay_sum) VALUES (2, 'ТТК', 10, 80) ON CONFLICT(service_id) DO NOTHING;
-INSERT INTO service (service_id, title, min_pay_sum, max_pay_sum) VALUES (3, 'УК Авоська', 15, 100) ON CONFLICT(service_id) DO NOTHING;
+INSERT INTO service (service_id, title, min_pay_sum, max_pay_sum) VALUES (1, 'MTC', 20, 90) ON CONFLICT(service_id) DO NOTHING;
+INSERT INTO service (service_id, title, min_pay_sum, max_pay_sum) VALUES (2, 'TTK', 10, 80) ON CONFLICT(service_id) DO NOTHING;
+INSERT INTO service (service_id, title, min_pay_sum, max_pay_sum) VALUES (3, 'YK Avoska', 15, 100) ON CONFLICT(service_id) DO NOTHING;

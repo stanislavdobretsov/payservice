@@ -9,5 +9,6 @@ public interface ServiceRepository {
     Service save(Service service);
     Service findById(Integer id);
     Service findByTitle(String name);
+    List<Service> findAll();
 
 }

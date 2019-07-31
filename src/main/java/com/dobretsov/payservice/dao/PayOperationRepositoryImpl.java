@@ -1,5 +1,6 @@
 package com.dobretsov.payservice.dao;
 
+import com.dobretsov.payservice.domain.Client;
 import com.dobretsov.payservice.domain.PayOperation;
 import com.dobretsov.payservice.domain.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,18 +46,18 @@ public class PayOperationRepositoryImpl implements PayOperationRepository {
 
     @Override
     public List<PayOperation> findFiltered(Map<String, Object> filter) {
+        Integer clientId = (Integer)filter.get("clientId");
         LocalDateTime begin = (LocalDateTime)filter.get("begin");
         LocalDateTime end = (LocalDateTime)filter.get("end");
-        Service service = (Service)filter.get("service");
+        Integer serviceId = (Integer)filter.get("serviceId");
         BigDecimal paySum = (BigDecimal)filter.get("paySum");
         List<PayOperation> result = null;
         StringBuilder sql = new StringBuilder();
-        Integer serviceId = service != null ? service.getServiceId() : null;
-        sql.append("SELECT * FROM pay_operation WHERE (?::TIMESTAMP IS NULL AND ?::TIMESTAMP IS NULL ");
+        sql.append("SELECT * FROM pay_operation WHERE (client_id = ?) AND (?::TIMESTAMP IS NULL AND ?::TIMESTAMP IS NULL ");
         sql.append("OR operation_time >= ? AND operation_time <= ?) ");
         sql.append("AND (?::INT IS NULL OR service_id = ?) ");
         sql.append("AND (?::INT IS NULL OR pay_sum = ?)");
-        result = jdbc.query(sql.toString(), new Object[]{begin, end, begin, end, serviceId, serviceId,
+        result = jdbc.query(sql.toString(), new Object[]{clientId, begin, end, begin, end, serviceId, serviceId,
                 paySum, paySum}, this::payOperationMapRow);
         return result;
     }

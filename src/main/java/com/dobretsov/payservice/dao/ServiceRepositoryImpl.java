@@ -45,6 +45,11 @@ public class ServiceRepositoryImpl implements ServiceRepository{
         return !result.isEmpty() ? result.get(0) : null;
     }
 
+    @Override
+    public List<Service> findAll() {
+        return jdbc.query("SELECT service_id, title, min_pay_sum, max_pay_sum FROM service", this::serviceMapRow);
+    }
+
     private Service serviceMapRow(ResultSet resultSet, int rowNum) throws SQLException {
         Service service = new Service();
         service.setMinPaySum(resultSet.getBigDecimal("min_pay_sum"));

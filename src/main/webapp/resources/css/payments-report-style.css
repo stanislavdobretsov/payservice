@@ -1,0 +1,13 @@
+div {
+    float: left;
+    display: block;
+    width: 300px;
+}
+
+#result {
+    margin-left: 100px;
+}
+
+#result > table, #result > table > tbody > tr, #result > table > tbody > tr > td {
+    border: 1px solid black;
+}
